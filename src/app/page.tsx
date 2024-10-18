@@ -46,7 +46,7 @@ export default function Home() {
   // FILTER FOR SEARCH AND CAPTURED
   useEffect(() => {
     const newFilteredPokemon = allPokemon.filter((p: any) => {
-      let id = p.url.split('/').filter(Boolean).pop();
+      const id = p.url.split('/').filter(Boolean).pop();
       if(isCapturedView){
         return p.name.toLowerCase().includes(searchTerm.toLowerCase()) && 
         localStorage.getItem(`capturedStatus-${id}`) === 'true'

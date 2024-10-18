@@ -89,7 +89,7 @@ export default function PokemonPage() {
             <p className='text-sm'>Abilities</p>
             <ul>
               {pokemonData.abilities?.map((ability: any) => {
-                return <li>{ability.ability.name}</li>
+                return <li key={ability.ability.name}>{ability.ability.name}</li>
               })}
             </ul>
           </div>
@@ -98,7 +98,7 @@ export default function PokemonPage() {
             <div className='grid grid-cols-3'>
               {pokemonData.stats?.map((stat: any) => {
                 return (
-                <div>
+                <div key={stat.stat.name}>
                   <p className='text-xs' style={{color: "#dc143c"}}>{stat.stat.name}</p>
                   <p>{stat.base_stat}</p>
                 </div>
