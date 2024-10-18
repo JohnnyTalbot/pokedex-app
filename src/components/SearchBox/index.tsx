@@ -1,4 +1,4 @@
-export default function SearchBox({ placeholder, searchTerm, onChangeHandler } : any) {
+export default function SearchBox({ placeholder, onChangeHandler } : any) {
   return(
     <input
       type="search"
