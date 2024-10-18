@@ -7,6 +7,8 @@ import { FaList } from 'react-icons/fa';
 import { BsFillGridFill } from 'react-icons/bs';
 import CardList from '@/components/CardList';
 import SearchBox from '@/components/SearchBox';
+import Header from '@/components/Header';
+import Loading from '@/components/Loading';
 
 async function getAllPokemon(){
   const res = await fetch(
@@ -14,7 +16,7 @@ async function getAllPokemon(){
     { cache: 'no-store' }
   );
   if (!res.ok) {
-    throw new Error('Failed to fetch Pokémon');
+    throw new Error('Failed to fetch Pokemon');
   }
   return res.json();
 }
@@ -66,15 +68,12 @@ export default function Home() {
     setOffset(newOffset);
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loading />;
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div>
-
-      <header className="w-full px-28 fixed flex flex-col left-0 right-0 top-0">
-        <h1 className='text-center'>Pokedex</h1>
-        <div className='flex justify-between'>
+    <div className="h-full min-h-screen text-gray-900 dark:text-gray-300 bg-gray-200 dark:bg-gray-900 transition-colors duration-300">
+      <Header pageName="Pokédex" hasBack={false}>
           <SearchBox
           placeholder="Search Pokemon..."
           onChangeHandler={(e: any) => setSearchTerm(e.target.value)}
@@ -83,11 +82,9 @@ export default function Home() {
             <button onClick={() => setIsListView(true)}><FaList/></button>
             <button onClick={() => setIsListView(false)}><BsFillGridFill/></button>
           </div>
-        </div>
-      </header>
-
-      <main className='px-28 py-20'>
-        <div className="flex flex-col justify-center">
+      </Header>
+      <main className='px-5 sm:px-10 md:px-16 lg:px-18 xl:px-24 pb-32'>
+        <div className="flex flex-col justify-center items-center w-full">
 
           <CardList
             items={displayedPokemon}
@@ -97,7 +94,7 @@ export default function Home() {
           {displayedPokemon.length < filteredPokemon.length && (
             <button
               onClick={loadMore}
-              className="mt-4 p-2 bg-blue-500 text-white rounded"
+              className="mt-4 p-2 bg-blue-500 text-white rounded w-48"
             >
               Load More
             </button>
@@ -105,9 +102,23 @@ export default function Home() {
         </div>
       </main>
 
-      <footer className="w-full px-28 fixed flex justify-around left-0 right-0 bottom-0">
-        <button onClick={() => setIsCapturedView(false)}>All</button>
-        <button onClick={() => setIsCapturedView(true)}>Captured</button>
+      <footer className="w-full fixed flex left-0 right-0 bottom-0">
+        <div
+          className={`flex-1 cursor-pointer flex justify-center p-5 ${
+            !isCapturedView ? 'bg-blue-500 text-white' : 'bg-gray-300 dark:bg-gray-700 text-black dark:text-white'
+          }`}
+          onClick={() => setIsCapturedView(false)}
+        >
+          <p>All</p>
+        </div>
+        <div
+          className={`flex-1 cursor-pointer flex justify-center p-5 ${
+            isCapturedView ? 'bg-blue-500 text-white' : 'bg-gray-300 dark:bg-gray-700 text-black dark:text-white'
+          }`}
+          onClick={() => setIsCapturedView(true)}
+        >
+          <p>Captured</p>
+        </div>
       </footer>
     </div>
   );

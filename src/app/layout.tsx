@@ -1,6 +1,5 @@
 'use client'
 
-import localFont from "next/font/local";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import "./globals.css";
 
