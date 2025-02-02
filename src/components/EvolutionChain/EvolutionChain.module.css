@@ -1,0 +1,16 @@
+.evoContainer{
+  transition: transform 0.3s ease;
+}
+
+.evoContainer:hover{
+  transform: scale(1.2);
+}
+
+.evoContainer:hover .evoName{
+  display: block;
+}
+
+.evoName{
+  display: none;
+  position:absolute;
+}

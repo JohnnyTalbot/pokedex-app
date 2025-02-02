@@ -7,6 +7,9 @@ import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Loading from '@/components/Loading';
 
+import InformationBox from '@/components/InformationBox';
+import EvolutionChain from '@/components/EvolutionChain';
+
 async function getPokemonData(id: string){
   const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
   if (!res.ok) {
@@ -75,38 +78,22 @@ export default function PokemonPage() {
             className='w-48'
             src={pokemonData.sprites.front_default}
             alt={pokemonData.name} />
-          <h1>{pokemonData.name}</h1>
+          <h1 className='text-lg'>{pokemonData.name}</h1>
+          <p className='text-s' style={{color: speciesData.color.name}}>
+            {speciesData.genera.find((t: any) => t.language.name == "en").genus}
+          </p>
           <p className='text-xs'>Height: {pokemonData.height/10} m</p>
           <p className='text-xs'>Weight: {pokemonData.weight/10} kg</p>
         </div>
-        <div className='max-w-2xl flex flex-col gap-3 border border-gray-900 dark:border-gray-200 rounded p-3 my-5 mx-2'>
-          <div>
-            <p>
-              {speciesData.flavor_text_entries.find((t: any) => t.language.name == "en").flavor_text}
-            </p>
-          </div>
-          <div>
-            <p className='text-sm'>Abilities</p>
-            <ul>
-              {pokemonData.abilities?.map((ability: any) => {
-                return <li key={ability.ability.name}>{ability.ability.name}</li>
-              })}
-            </ul>
-          </div>
-          <div>
-            <p className='text-sm'>Base Stats</p>
-            <div className='grid grid-cols-3'>
-              {pokemonData.stats?.map((stat: any) => {
-                return (
-                <div key={stat.stat.name}>
-                  <p className='text-xs' style={{color: "#dc143c"}}>{stat.stat.name}</p>
-                  <p>{stat.base_stat}</p>
-                </div>
-                )
-                })}
-            </div>
-            
-          </div>
+        <div className='max-w-2xl flex gap-3 border border-gray-900 dark:border-gray-200 rounded p-3 my-5 mx-2'>
+          <InformationBox 
+          text_entries={speciesData.flavor_text_entries}
+          types={pokemonData.types}
+          abilities={pokemonData.abilities}
+          stats={pokemonData.stats} />
+
+          <EvolutionChain url={speciesData.evolution_chain.url} />
+
         </div>
         
         <div className="flex flex-col border border-gray-900 dark:border-gray-200 rounded justify-center p-3 mx-2">
